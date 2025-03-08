@@ -11,12 +11,57 @@ public class Rotor {
         this.rotation = rotation % 26;
         this.alphabet = alphabet;
 
-        for (int i = 0; i < this.rotation; i++) {
-
-        }
+        this.nRotate(rotation);
     }
 
-    public static void main(String[] args){
+    public Rotor(int position, int rotation, String alphabet) {
+        this.position = position;
+        this.rotation = rotation % 26;
+        this.alphabet = new TreeMap<>();
+
+        for (int i = 0; i < 26; i++)
+            this.alphabet.put((char) (i + 'A'), alphabet.charAt(i));
+
+        this.nRotate(rotation);
+    }
+
+    public void rotate() {
+        TreeMap<Character, Character> newAlphabet = new TreeMap<>();
+        int index = 1;
+
+        for (int i = 0; i < alphabet.size(); i++) {
+            index = (index + 1) % alphabet.size();
+            newAlphabet.put((char) (index + 'A'), alphabet.get((char) (i + 'A')));
+        }
+
+        this.alphabet = newAlphabet;
+    }
+
+    public void nRotate(int rotations) {
+        TreeMap<Character, Character> newAlphabet = new TreeMap<>();
+        int index = rotations % 26;
+
+        for (int i = 0; i < alphabet.size(); i++) {
+            index = (index + 1) % alphabet.size();
+            newAlphabet.put((char) (index + 'A'), alphabet.get((char) (i + 'A')));
+        }
+
+        this.alphabet = newAlphabet;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getRotation() {
+        return rotation;
+    }
+
+    public TreeMap<Character, Character> getAlphabet() {
+        return alphabet;
+    }
+
+    public static void main(String[] args) {
         TreeMap<Character, Character> alphabet = new TreeMap<>();
         alphabet.put('A', '1');
         alphabet.put('B', '2');
@@ -30,7 +75,7 @@ public class Rotor {
 
         for (int i = 0; i < alphabet.size(); i++) {
             index = (index + 1) % alphabet.size();
-            alphabet1.put((char)(index + 'A'), alphabet.get((char)(i + 'A')));
+            alphabet1.put((char) (index + 'A'), alphabet.get((char) (i + 'A')));
         }
         System.out.println(alphabet1);
     }
