@@ -1,8 +1,10 @@
 package sixmax06.javafx.enigmamachine;
 
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 
 public class Rotor {
     private int position, rotation;
@@ -24,18 +26,50 @@ public class Rotor {
         for (int i = 0; i < 26; i++)
             this.alphabet.put((char) (i + 'A'), alphabet.charAt(i));
 
-        this.nRotate(rotation);
+        //this.nRotate(rotation);
     }
 
     public void rotate(int index) {
-        TreeMap<Character, Character> newAlphabet = new TreeMap<>();
-        Set<Character> chiavi = alphabet.keySet();
-
-        for (int i = 0; i < alphabet.size(); i++) {
-            //newAlphabet.put(chiavi., alphabet.get((char) (i + 'A')));
+        ArrayList<Character> valori = new ArrayList<>();
+        index %= 26;
+        for(int i = 0; i < this.alphabet.size(); ++i){
+            valori.add(this.alphabet.get((char)(i+1)));
         }
+        System.out.println(valori);
 
-        this.alphabet = newAlphabet;
+        for (int i = 0; i < index; ++i){
+            valori.addFirst(valori.getLast());
+            valori.removeLast();
+        }
+        for(int i = 0; i < valori.size(); ++i){
+            this.alphabet.put((char) (i+1), valori.get(i));
+        }
+        valori.clear();
+    }
+
+    public static TreeMap<Character, Character> getAlphabet(int index) throws IOException {
+        String file = "rotors.csv";
+        FileReader fr = null;
+        try {
+            fr = new FileReader(file);
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+        BufferedReader br = new BufferedReader(fr);
+        TreeMap<Character, Character> alphabet = new TreeMap();
+        String riga = br.readLine();
+        while(riga != null){
+            //System.out.println(riga);
+            if (riga.split(";")[0].equals(String.valueOf(index))){
+                String riga_alfabeto = riga.split(";")[1];
+                //System.out.println(riga_alfabeto);
+                for (int i = 0; i < riga_alfabeto.length(); ++i){
+                    alphabet.put((char)('A'+i), riga_alfabeto.charAt(i));
+                }
+                return alphabet;
+            }
+        }
+        return null;
     }
 
     public void nRotate(int rotations) {
@@ -62,23 +96,8 @@ public class Rotor {
         return alphabet;
     }
 
-    public static void main(String[] args) {
-        TreeMap<Character, Character> alphabet = new TreeMap<>();
-        char inizio = 'A';
-        for (int i = 0; i < 26; ++i){
-            alphabet.put((char) (inizio + i), Character.);
-        }
-        System.out.println(alphabet + "\n");
-
-        TreeMap<Character, Character> alphabet1 = new TreeMap<>();
-
-        int rotazione = 1;
-        int index = rotazione % alphabet.size();
-
-        for (int i = 0; i < alphabet.size(); i++) {
-            index = (index + 1) % alphabet.size();
-            alphabet1.put((char) (index + 'A'), alphabet.get((char) (i + 'A')));
-        }
-        System.out.println(alphabet1);
+    public static void main(String[] args) throws IOException {
+        TreeMap<Character, Character> ts = Rotor.getAlphabet(1);
+        System.out.println(ts);
     }
 }
