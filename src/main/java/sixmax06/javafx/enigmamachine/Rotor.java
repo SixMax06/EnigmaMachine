@@ -1,6 +1,8 @@
 package sixmax06.javafx.enigmamachine;
 
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Rotor {
     private int position, rotation;
@@ -25,13 +27,12 @@ public class Rotor {
         this.nRotate(rotation);
     }
 
-    public void rotate() {
+    public void rotate(int index) {
         TreeMap<Character, Character> newAlphabet = new TreeMap<>();
-        int index = 1;
+        Set<Character> chiavi = alphabet.keySet();
 
         for (int i = 0; i < alphabet.size(); i++) {
-            index = (index + 1) % alphabet.size();
-            newAlphabet.put((char) (index + 'A'), alphabet.get((char) (i + 'A')));
+            //newAlphabet.put(chiavi., alphabet.get((char) (i + 'A')));
         }
 
         this.alphabet = newAlphabet;
@@ -63,9 +64,10 @@ public class Rotor {
 
     public static void main(String[] args) {
         TreeMap<Character, Character> alphabet = new TreeMap<>();
-        alphabet.put('A', '1');
-        alphabet.put('B', '2');
-        alphabet.put('C', '3');
+        char inizio = 'A';
+        for (int i = 0; i < 26; ++i){
+            alphabet.put((char) (inizio + i), Character.);
+        }
         System.out.println(alphabet + "\n");
 
         TreeMap<Character, Character> alphabet1 = new TreeMap<>();
