@@ -7,27 +7,15 @@ import java.io.IOException;
 import java.util.*;
 
 public class Rotor {
-    private final int position;
     private int rotation;
     private TreeMap<Character, Character> alphabet;
 
-    public Rotor(int position, int rotation, TreeMap<Character, Character> alphabet) {
-        this.position = position;
-        this.rotation = rotation % 26;
-        this.alphabet = alphabet;
-
-        //this.nRotate(rotation);
-    }
-
-    public Rotor(int position, int rotation, String alphabet) {
-        this.position = position;
+    public Rotor(int rotation, String alphabet) {
         this.rotation = rotation % 26;
         this.alphabet = new TreeMap<>();
 
         for (int i = 0; i < 26; i++)
             this.alphabet.put((char) (i + 'A'), alphabet.charAt(i));
-
-        //this.nRotate(rotation);
     }
 
     public void rotate(int index) {
@@ -48,19 +36,6 @@ public class Rotor {
         values.clear();
     }
 
-    public void nRotate(int rotations) {
-        TreeMap<Character, Character> newAlphabet = new TreeMap<>();
-        int index = rotations % 26;
-
-        for (int i = 0; i < alphabet.size(); i++) {
-            index = (index + 1) % alphabet.size();
-            newAlphabet.put((char) (index + 'A'), alphabet.get((char) (i + 'A')));
-        }
-
-        this.rotation++;
-        this.alphabet = newAlphabet;
-    }
-
     public Character getCorrespondingValue(char key) {
         return this.alphabet.get(key);
     }
@@ -73,10 +48,6 @@ public class Rotor {
             }
         }
         return null;
-    }
-
-    public int getPosition() {
-        return position;
     }
 
     public int getRotation() {
@@ -112,19 +83,4 @@ public class Rotor {
         }
         return null;
     }
-
-    public static void main(String[] args) throws IOException {
-        Rotor r1 = new Rotor(26, 0, Rotor.getAlphabet(1));
-        Rotor r2 = new Rotor(26, 0, Rotor.getAlphabet(2));
-        Rotor r3 = new Rotor(26, 0, Rotor.getAlphabet(3));
-
-        ArrayList<Rotor> rotors = new ArrayList<>();
-        rotors.add(r1);
-        rotors.add(r2);
-        rotors.add(r3);
-
-        Reflector reflector = new Reflector(rotors);
-
-        System.out.println(reflector.getCodifica('A'));
-        }
 }
