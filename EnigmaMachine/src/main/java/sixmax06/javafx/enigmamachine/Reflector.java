@@ -1,22 +1,26 @@
 package sixmax06.javafx.enigmamachine;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class Reflector {
-    private TreeMap <Character, Character> reflectedAlphabet;
+    private final TreeMap <Integer, Integer> reflectedAlphabet;
 
     public Reflector(String alphabet) {
         this.reflectedAlphabet = new TreeMap<>();
 
         for (int i = 0; i < 26; i++)
-            this.reflectedAlphabet.put((char) (i + 'A'), alphabet.charAt(i));
+            this.reflectedAlphabet.put(i, alphabet.charAt(i) - 'A');
     }
 
-    public TreeMap<Character, Character> getReflectedAlphabet() {
+    public int getReflectedCharacter(int key) {
+        return this.reflectedAlphabet.get(key);
+    }
+
+    public TreeMap<Integer, Integer> getReflectedAlphabet() {
         return this.reflectedAlphabet;
+    }
+
+    public String toString() {
+        return this.reflectedAlphabet.toString();
     }
 }
