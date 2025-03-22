@@ -9,6 +9,7 @@ public class EnigmaMachine {
     private Rotor rotor1, rotor2, rotor3;
     private Reflector reflector;
     private String encryptedRotor1, encryptedRotor2, encryptedRotor3;
+    private char turnoverChar1, turnoverChar2, turnoverChar3;
 
     public EnigmaMachine(int rotor1Type, int rotor2Type, int rotor3Type) {
         FileReader fr;
@@ -26,9 +27,18 @@ public class EnigmaMachine {
 
                 int type = Integer.parseInt(info[0]);
 
-                if (type == 1) this.encryptedRotor1 = info[1];
-                else if (type == 2) this.encryptedRotor2 = info[1];
-                else if (type == 3) this.encryptedRotor3 = info[1];
+                if (type == 1) {
+                    this.encryptedRotor1 = info[1] + info[2];
+                    this.turnoverChar1 = info[2].charAt(0);
+
+                } else if (type == 2) {
+                    this.encryptedRotor2 = info[1] + info[2];
+                    this.turnoverChar2 = info[2].charAt(0);
+
+                } else if (type == 3) {
+                    this.encryptedRotor3 = info[1] + info[2];
+                    this.turnoverChar3 = info[2].charAt(0);
+                }
 
                 if (type == rotor1Type)
                     this.rotor1 = new Rotor(0, info[1], info[2].charAt(0));
@@ -66,13 +76,78 @@ public class EnigmaMachine {
                 this.rotor1.rotate(1);
 
                 if (this.rotor1.getRotation() == rotor1.getTurnoverInt()) {
-                    this.rotor2.rotate(1); this.rotor3.rotate(1);
+                    this.rotor2.rotate(1);
+                    this.rotor3.rotate(1);
                 }
             }
         }
     }
 
-    public char getCodifiedCharacter(char character) {
+    private void changeRotor1Type(int type) {
+        switch (type) {
+            case 1:
+                this.rotor1.changeEncryptedAlphabet(encryptedRotor1, turnoverChar1);
+                break;
+            case 2:
+                this.rotor1.changeEncryptedAlphabet(encryptedRotor2, turnoverChar2);
+                break;
+            case 3:
+                this.rotor1.changeEncryptedAlphabet(encryptedRotor3, turnoverChar3);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void changeRotor2Type(int type) {
+        switch (type) {
+            case 1:
+                this.rotor2.changeEncryptedAlphabet(encryptedRotor1, turnoverChar1);
+                break;
+            case 2:
+                this.rotor2.changeEncryptedAlphabet(encryptedRotor2, turnoverChar2);
+                break;
+            case 3:
+                this.rotor2.changeEncryptedAlphabet(encryptedRotor3, turnoverChar3);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void changeRotor3Type(int type) {
+        switch (type) {
+            case 1:
+                this.rotor3.changeEncryptedAlphabet(encryptedRotor1, turnoverChar1);
+                break;
+            case 2:
+                this.rotor3.changeEncryptedAlphabet(encryptedRotor2, turnoverChar2);
+                break;
+            case 3:
+                this.rotor3.changeEncryptedAlphabet(encryptedRotor3, turnoverChar3);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void changeRotorType(int rotor, int type) {
+        switch (rotor) {
+            case 1:
+                this.changeRotor1Type(type);
+                break;
+            case 2:
+                this.changeRotor2Type(type);
+                break;
+            case 3:
+                this.changeRotor3Type(type);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public char getEncryptedCharacter(char character) {
         this.rotateRotors();
 
         char result = character;
@@ -96,7 +171,7 @@ public class EnigmaMachine {
 
         StringBuilder result = new StringBuilder();
         for (char c : phrase.toCharArray()) {
-            char encryptedChar = getCodifiedCharacter(c);
+            char encryptedChar = getEncryptedCharacter(c);
             result.append(encryptedChar);
         }
 
@@ -105,7 +180,8 @@ public class EnigmaMachine {
 
     public static void main(String[] args) {
         EnigmaMachine enigmaMachine = new EnigmaMachine(1, 1, 1);
-        System.out.println(enigmaMachine.getCodifiedPhrase("XQQMR"));
+        enigmaMachine.changeRotorType(1, 2);
+        System.out.println(enigmaMachine.getCodifiedPhrase("ciao"));
     }
 
     public String toString() {
