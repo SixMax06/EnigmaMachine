@@ -3,20 +3,20 @@ package sixmax06.javafx.enigmamachine;
 import java.util.TreeMap;
 
 public class Reflector {
-    private final TreeMap <Integer, Integer> reflectedAlphabet;
+    private final TreeMap <Character, Character> reflectedAlphabet;
 
     public Reflector(String alphabet) {
         this.reflectedAlphabet = new TreeMap<>();
 
         for (int i = 0; i < 26; i++)
-            this.reflectedAlphabet.put(i, alphabet.charAt(i) - 'A');
+            this.reflectedAlphabet.put((char) (i + 'A'), alphabet.charAt(i));
     }
 
-    public int getReflectedCharacter(int key) {
+    public char getReflectedCharacter(char key) {
         return this.reflectedAlphabet.get(key);
     }
 
-    public TreeMap<Integer, Integer> getReflectedAlphabet() {
+    public TreeMap<Character, Character> getReflectedAlphabet() {
         return this.reflectedAlphabet;
     }
 

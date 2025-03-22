@@ -8,9 +8,9 @@ import java.io.IOException;
 public class EnigmaMachine {
     private Rotor rotor1, rotor2, rotor3;
     private Reflector reflector;
-    private String rotorType1, rotorType2, rotorType3;
+    private String encryptedRotor1, encryptedRotor2, encryptedRotor3;
 
-    public EnigmaMachine() {
+    public EnigmaMachine(int rotor1Type, int rotor2Type, int rotor3Type) {
         FileReader fr;
         final String rotorsFile = "rotors.csv", reflectorFile = "reflector.csv";
 
@@ -21,21 +21,24 @@ public class EnigmaMachine {
             String line;
             String[] info;
 
-            line = br.readLine();
-            info = line.split(";");
-            this.rotorType1 = info[1];
+            while ((line = br.readLine()) != null) {
+                info = line.split(";");
 
-            line = br.readLine();
-            info = line.split(";");
-            this.rotorType2 = info[1];
+                int type = Integer.parseInt(info[0]);
 
-            line = br.readLine();
-            info = line.split(";");
-            this.rotorType3 = info[1];
+                if (type == 1) this.encryptedRotor1 = info[1];
+                else if (type == 2) this.encryptedRotor2 = info[1];
+                else if (type == 3) this.encryptedRotor3 = info[1];
 
-            this.rotor3 = new Rotor(0, rotorType1);
-            this.rotor2 = new Rotor(0, rotorType1);
-            this.rotor1 = new Rotor(0, rotorType1);
+                if (type == rotor1Type)
+                    this.rotor1 = new Rotor(0, info[1], info[2].charAt(0));
+
+                if (type == rotor2Type)
+                    this.rotor2 = new Rotor(0, info[1], info[2].charAt(0));
+
+                if (type == rotor3Type)
+                    this.rotor3 = new Rotor(0, info[1], info[2].charAt(0));
+            }
 
             fr = new FileReader(reflectorFile);
 
@@ -56,45 +59,53 @@ public class EnigmaMachine {
     public void rotateRotors() {
         this.rotor3.rotate(1);
 
-        if (this.rotor3.getRotation() == 0) {
+        if (this.rotor3.getRotation() == rotor3.getTurnoverInt()) {
             this.rotor2.rotate(1);
 
-            if (this.rotor2.getRotation() == 0)
+            if (this.rotor2.getRotation() == rotor2.getTurnoverInt()) {
                 this.rotor1.rotate(1);
+
+                if (this.rotor1.getRotation() == rotor1.getTurnoverInt()) {
+                    this.rotor2.rotate(1); this.rotor3.rotate(1);
+                }
+            }
         }
     }
 
     public char getCodifiedCharacter(char character) {
         this.rotateRotors();
 
-        int result = character - 'A';
+        char result = character;
 
-        System.out.println((char) (result + 'A'));
-
-        result = rotor3.getAlphabet().get(result);
-        System.out.println((char) (result + 'A'));
-        result = rotor2.getAlphabet().get(result);
-        System.out.println((char) (result + 'A'));
-        result = rotor1.getAlphabet().get(result);
-        System.out.println((char) (result + 'A'));
+        result = rotor3.getForwardEncryptedCharacter(result);
+        result = rotor2.getForwardEncryptedCharacter(result);
+        result = rotor1.getForwardEncryptedCharacter(result);
 
         result = reflector.getReflectedCharacter(result);
-        System.out.println((char) (result + 'A'));
 
-        result = rotor1.getAlphabet().get(result);
-        System.out.println((char) (result + 'A'));
-        result = rotor2.getAlphabet().get(result);
-        System.out.println((char) (result + 'A'));
-        result = rotor3.getAlphabet().get(result);
-        System.out.println((char) (result + 'A'));
+        result = rotor1.getBackwardEncryptedCharacter(result);
+        result = rotor2.getBackwardEncryptedCharacter(result);
+        result = rotor3.getBackwardEncryptedCharacter(result);
 
-        return (char) (result + 'A');
+        return result;
+    }
+
+    public String getCodifiedPhrase(String phrase) {
+        phrase = phrase.toUpperCase();
+        phrase = phrase.replaceAll("[^A-Z]", "");
+
+        StringBuilder result = new StringBuilder();
+        for (char c : phrase.toCharArray()) {
+            char encryptedChar = getCodifiedCharacter(c);
+            result.append(encryptedChar);
+        }
+
+        return result.toString();
     }
 
     public static void main(String[] args) {
-        EnigmaMachine enigmaMachine = new EnigmaMachine();
-        System.out.println(enigmaMachine.getCodifiedCharacter('T'));
-        System.out.println(enigmaMachine);
+        EnigmaMachine enigmaMachine = new EnigmaMachine(1, 1, 1);
+        System.out.println(enigmaMachine.getCodifiedPhrase("XQQMR"));
     }
 
     public String toString() {
