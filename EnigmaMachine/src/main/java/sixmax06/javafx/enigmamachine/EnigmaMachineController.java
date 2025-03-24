@@ -1,13 +1,13 @@
 package sixmax06.javafx.enigmamachine;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.BufferedReader;
@@ -34,61 +34,47 @@ public class EnigmaMachineController {
     @FXML
     private HBox hbxKeyboard1, hbxKeyboard2, hbxKeyboard3;
 
-    private ToggleGroup tgLampboard;
+    private EnigmaMachine enigmaMachine;
 
     public void initialize() {
-        this.tgLampboard = new ToggleGroup();
+        this.enigmaMachine = new EnigmaMachine(1, 1, 1);
 
         FileReader fr = null;
         try {
             fr = new FileReader("keyboard_layout.csv");
             BufferedReader br = new BufferedReader(fr);
-            String[] line = new String[3];
-            final int size = 45;
+            String keyboardLayout;
 
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 3; i++)
-                line[i] = br.readLine();
+                sb.append(br.readLine());
 
-            for (Character c : line[0].toCharArray()) {
-                Button keyButton = new Button(String.valueOf(c));
-                keyButton.setPrefSize(size, size);
-                keyButton.setFont(new Font("System", 18));
+            keyboardLayout = sb.toString();
+
+            for (int i = 0; i < 26; i++) {
+                Button keyButton = new Button(String.valueOf(keyboardLayout.charAt(i)));
+                keyButton.setPrefSize(45, 45);
+                keyButton.setFont(new Font("System", 20));
+
                 keyButton.setOnAction(event -> {
-                    System.out.println("Pressed key: " + keyButton.getText());
+                    this.EncryptCharacter(keyButton.getText().charAt(0));
                 });
-                this.hbxKeyboard1.getChildren().add(keyButton);
 
-                RadioButton lampButton = new RadioButton(String.valueOf(c));
-                lampButton.setPrefSize(size, size);
-                lampButton.setFont(new Font("System", 18));
-                this.tgLampboard.getToggles().add(lampButton);
-                this.hbxLampboard1.getChildren().add(lampButton);
-            }
+                Label lampButton = new Label(String.valueOf(keyboardLayout.charAt(i)));
+                lampButton.setPrefSize(50, 50);
+                lampButton.setFont(new Font("System", 24));
+                lampButton.alignmentProperty().set(Pos.CENTER);
 
-            for (Character c : line[1].toCharArray()) {
-                Button keyButton = new Button(String.valueOf(c));
-                keyButton.setPrefSize(size, size);
-                keyButton.setFont(new Font("System", 18));
-                hbxKeyboard2.getChildren().add(keyButton);
-
-                RadioButton lampButton = new RadioButton(String.valueOf(c));
-                lampButton.setPrefSize(size, size);
-                lampButton.setFont(new Font("System", 18));
-                this.tgLampboard.getToggles().add(lampButton);
-                this.hbxLampboard2.getChildren().add(lampButton);
-            }
-
-            for (Character c : line[2].toCharArray()) {
-                Button keyButton = new Button(String.valueOf(c));
-                keyButton.setPrefSize(size, size);
-                keyButton.setFont(new Font("System", 18));
-                hbxKeyboard3.getChildren().add(keyButton);
-
-                RadioButton lampButton = new RadioButton(String.valueOf(c));
-                lampButton.setPrefSize(size, size);
-                lampButton.setFont(new Font("System", 18));
-                this.tgLampboard.getToggles().add(lampButton);
-                this.hbxLampboard3.getChildren().add(lampButton);
+                if (i <= 8) {
+                    this.hbxKeyboard1.getChildren().add(keyButton);
+                    this.hbxLampboard1.getChildren().add(lampButton);
+                } else if (i <= 16) {
+                    this.hbxKeyboard2.getChildren().add(keyButton);
+                    this.hbxLampboard2.getChildren().add(lampButton);
+                } else {
+                    this.hbxKeyboard3.getChildren().add(keyButton);
+                    this.hbxLampboard3.getChildren().add(lampButton);
+                }
             }
 
             fr.close();
@@ -100,6 +86,54 @@ public class EnigmaMachineController {
         } catch (IOException e) {
             System.out.println("ERROR. I/O Error : " + e.getMessage());
             System.exit(2);
+        }
+    }
+
+    private void EncryptCharacter(char character){
+        char encryptedCharacter = this.enigmaMachine.getEncryptedCharacter(character);
+        int index = encryptedCharacter - 'A';
+
+        Label EncryptedLamp = new Label(String.valueOf(encryptedCharacter));
+        EncryptedLamp.setPrefSize(45, 45);
+        EncryptedLamp.setFont(new Font("System", 20));
+        EncryptedLamp.alignmentProperty().set(Pos.CENTER);
+        EncryptedLamp.setTextFill(Color.color(1, 0, 0));
+        EncryptedLamp.setUnderline(true);
+
+        try {
+            if (index <= 9) {
+                Node temp = hbxLampboard1.getChildren().get(index);
+                hbxLampboard1.getChildren().remove(index);
+                hbxLampboard1.getChildren().add(index, EncryptedLamp);
+
+                Thread.sleep(3000);
+
+                hbxLampboard1.getChildren().remove(index);
+                hbxLampboard1.getChildren().add(index, temp);
+
+            } else if (index <= 16) {
+                Node temp = hbxLampboard2.getChildren().get(index);
+                hbxLampboard2.getChildren().remove(index - 10);
+                hbxLampboard2.getChildren().add(index, EncryptedLamp);
+
+                Thread.sleep(3000);
+
+                hbxLampboard2.getChildren().remove(index - 10);
+                hbxLampboard2.getChildren().add(index, temp);
+
+            } else {
+                Node temp = hbxLampboard3.getChildren().get(index);
+                hbxLampboard3.getChildren().remove(index - 17);
+                hbxLampboard3.getChildren().add(index, EncryptedLamp);
+
+                Thread.sleep(3000);
+
+                hbxLampboard3.getChildren().remove(index - 17);
+                hbxLampboard3.getChildren().add(index, temp);
+            }
+        } catch (InterruptedException e) {
+            System.out.println("ERROR. Interrupted Exception : " + e.getMessage());
+            System.exit(3);
         }
     }
 }
