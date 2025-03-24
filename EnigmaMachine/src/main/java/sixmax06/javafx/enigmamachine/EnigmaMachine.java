@@ -56,6 +56,9 @@ public class EnigmaMachine {
             line = br.readLine();
             this.reflector = new Reflector(line);
 
+            fr.close();
+            br.close();
+
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. File not found : " + e.getMessage());
             System.exit(1);
