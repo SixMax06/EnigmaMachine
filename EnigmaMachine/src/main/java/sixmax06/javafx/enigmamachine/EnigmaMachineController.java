@@ -2,13 +2,19 @@ package sixmax06.javafx.enigmamachine;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -35,21 +41,19 @@ public class EnigmaMachineController {
     private HBox hbxKeyboard1, hbxKeyboard2, hbxKeyboard3;
 
     private EnigmaMachine enigmaMachine;
+    private String keyboardLayout;
 
     public void initialize() {
-        this.enigmaMachine = new EnigmaMachine(1, 1, 1);
+        this.enigmaMachine = new EnigmaMachine(2, 1, 1);
 
         FileReader fr = null;
         try {
             fr = new FileReader("keyboard_layout.csv");
             BufferedReader br = new BufferedReader(fr);
-            String keyboardLayout;
+            this.keyboardLayout = "";
 
-            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 3; i++)
-                sb.append(br.readLine());
-
-            keyboardLayout = sb.toString();
+                this.keyboardLayout += br.readLine();
 
             for (int i = 0; i < 26; i++) {
                 Button keyButton = new Button(String.valueOf(keyboardLayout.charAt(i)));
@@ -57,25 +61,30 @@ public class EnigmaMachineController {
                 keyButton.setFont(new Font("System", 20));
 
                 keyButton.setOnAction(event -> {
+                    this.turnOffAllLamps();
                     this.EncryptCharacter(keyButton.getText().charAt(0));
                 });
 
-                Label lampButton = new Label(String.valueOf(keyboardLayout.charAt(i)));
-                lampButton.setPrefSize(50, 50);
-                lampButton.setFont(new Font("System", 24));
-                lampButton.alignmentProperty().set(Pos.CENTER);
+                Text lampButton = createText(String.valueOf(keyboardLayout.charAt(i)));
+                Circle lampCircle = createOffLamp();
+                StackPane lamp = new StackPane();
+                lamp.getChildren().addAll(lampCircle, lampButton);
 
                 if (i <= 8) {
                     this.hbxKeyboard1.getChildren().add(keyButton);
-                    this.hbxLampboard1.getChildren().add(lampButton);
+                    this.hbxLampboard1.getChildren().add(lamp);
+
                 } else if (i <= 16) {
                     this.hbxKeyboard2.getChildren().add(keyButton);
-                    this.hbxLampboard2.getChildren().add(lampButton);
+                    this.hbxLampboard2.getChildren().add(lamp);
+
                 } else {
                     this.hbxKeyboard3.getChildren().add(keyButton);
-                    this.hbxLampboard3.getChildren().add(lampButton);
+                    this.hbxLampboard3.getChildren().add(lamp);
                 }
             }
+
+            System.out.println(hbxKeyboard1.getChildren());
 
             fr.close();
             br.close();
@@ -89,51 +98,77 @@ public class EnigmaMachineController {
         }
     }
 
-    private void EncryptCharacter(char character){
+    private Text createText(String string) {
+        Text text = new Text(string);
+        text.setBoundsType(TextBoundsType.VISUAL);
+        text.setStyle(
+                "-fx-font-family: \"System\";" +
+                        "-fx-font-size: 20px;"
+        );
+
+        return text;
+    }
+
+    private Circle createOffLamp() {
+        Circle circle = new Circle();
+        circle.setFill(Color.LIGHTGREY);
+        circle.setRadius(22);
+        circle.setStroke(Color.BLACK);
+        return circle;
+    }
+
+    private Circle createOnLamp() {
+        Circle circle = new Circle();
+        circle.setFill(Color.YELLOW);
+        circle.setRadius(22);
+        circle.setStroke(Color.BLACK);
+        return circle;
+    }
+
+    private void EncryptCharacter(char character) {
         char encryptedCharacter = this.enigmaMachine.getEncryptedCharacter(character);
-        int index = encryptedCharacter - 'A';
+        int index = this.keyboardLayout.indexOf(encryptedCharacter);
 
-        Label EncryptedLamp = new Label(String.valueOf(encryptedCharacter));
-        EncryptedLamp.setPrefSize(45, 45);
-        EncryptedLamp.setFont(new Font("System", 20));
-        EncryptedLamp.alignmentProperty().set(Pos.CENTER);
-        EncryptedLamp.setTextFill(Color.color(1, 0, 0));
-        EncryptedLamp.setUnderline(true);
+        Text lampButton = createText(String.valueOf(encryptedCharacter));
+        Circle lampCircle = createOnLamp();
+        StackPane EncryptedLamp = new StackPane();
+        EncryptedLamp.getChildren().addAll(lampCircle, lampButton);
 
-        try {
-            if (index <= 9) {
-                Node temp = hbxLampboard1.getChildren().get(index);
-                hbxLampboard1.getChildren().remove(index);
-                hbxLampboard1.getChildren().add(index, EncryptedLamp);
+        if (index <= 8) {
+            hbxLampboard1.getChildren().remove(index);
+            hbxLampboard1.getChildren().add(index, EncryptedLamp);
 
-                Thread.sleep(3000);
+        } else if (index <= 16) {
+            hbxLampboard2.getChildren().remove(index - 9);
+            hbxLampboard2.getChildren().add(index - 9, EncryptedLamp);
 
-                hbxLampboard1.getChildren().remove(index);
-                hbxLampboard1.getChildren().add(index, temp);
+        } else {
+            hbxLampboard3.getChildren().remove(index - 17);
+            hbxLampboard3.getChildren().add(index - 17, EncryptedLamp);
+        }
 
-            } else if (index <= 16) {
-                Node temp = hbxLampboard2.getChildren().get(index);
-                hbxLampboard2.getChildren().remove(index - 10);
-                hbxLampboard2.getChildren().add(index, EncryptedLamp);
+    }
 
-                Thread.sleep(3000);
+    private void turnOffAllLamps() {
+        this.hbxLampboard1.getChildren().clear();
+        this.hbxLampboard2.getChildren().clear();
+        this.hbxLampboard3.getChildren().clear();
 
-                hbxLampboard2.getChildren().remove(index - 10);
-                hbxLampboard2.getChildren().add(index, temp);
+        for (int i = 0; i < 26; i++) {
+            Text lampButton = createText(String.valueOf(this.keyboardLayout.charAt(i)));
+            Circle lampCircle = createOffLamp();
+            StackPane lamp = new StackPane();
+            lamp.getChildren().addAll(lampCircle, lampButton);
+
+            if (i <= 8) {
+                this.hbxLampboard1.getChildren().add(lamp);
+
+            } else if (i <= 16) {
+                this.hbxLampboard2.getChildren().add(lamp);
 
             } else {
-                Node temp = hbxLampboard3.getChildren().get(index);
-                hbxLampboard3.getChildren().remove(index - 17);
-                hbxLampboard3.getChildren().add(index, EncryptedLamp);
-
-                Thread.sleep(3000);
-
-                hbxLampboard3.getChildren().remove(index - 17);
-                hbxLampboard3.getChildren().add(index, temp);
+                this.hbxLampboard3.getChildren().add(lamp);
             }
-        } catch (InterruptedException e) {
-            System.out.println("ERROR. Interrupted Exception : " + e.getMessage());
-            System.exit(3);
         }
     }
 }
