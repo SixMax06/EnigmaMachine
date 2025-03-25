@@ -5,12 +5,21 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Classe che ricrea il funzionamento della macchina enigma
+ */
 public class EnigmaMachine {
     private Rotor rotor1, rotor2, rotor3;
     private Reflector reflector;
     private String encryptedRotor1, encryptedRotor2, encryptedRotor3;
     private char turnoverChar1, turnoverChar2, turnoverChar3;
 
+    /**
+     * Costruttore
+     * @param rotor1Type Tipo del 1° rotore
+     * @param rotor2Type Tipo del 2° rotore
+     * @param rotor3Type Tipo del 3° rotore
+     */
     public EnigmaMachine(int rotor1Type, int rotor2Type, int rotor3Type) {
         FileReader fr;
         final String rotorsFile = "rotors.csv", reflectorFile = "reflector.csv";
@@ -66,6 +75,9 @@ public class EnigmaMachine {
         }
     }
 
+    /**
+     * Funzione che ruota i rotori
+     */
     public void rotateRotors() {
         this.rotor3.rotate(1);
 
@@ -83,6 +95,10 @@ public class EnigmaMachine {
         }
     }
 
+    /**
+     * Cambia la tipologia del 1° rotore
+     * @param type Tipo
+     */
     private void changeRotor1Type(int type) {
         switch (type) {
             case 1:
@@ -99,6 +115,10 @@ public class EnigmaMachine {
         }
     }
 
+    /**
+     * Cambia la tipologia del 2° rotore
+     * @param type Tipo
+     */
     private void changeRotor2Type(int type) {
         switch (type) {
             case 1:
@@ -114,7 +134,10 @@ public class EnigmaMachine {
                 break;
         }
     }
-
+    /**
+     * Cambia la tipologia del 3° rotore
+     * @param type Tipo
+     */
     private void changeRotor3Type(int type) {
         switch (type) {
             case 1:
@@ -131,6 +154,11 @@ public class EnigmaMachine {
         }
     }
 
+    /**
+     * Cambia la tipologia di un singolo rotore
+     * @param rotor Posizione del rotore
+     * @param type Tipologia della posizione
+     */
     public void changeRotorType(int rotor, int type) {
         switch (rotor) {
             case 1:
@@ -147,6 +175,11 @@ public class EnigmaMachine {
         }
     }
 
+    /**
+     * Codifica una lettera attraverso i rotori e il riflessore
+     * @param character Lettera da codificare
+     * @return Lettera codificata
+     */
     public char getEncryptedCharacter(char character) {
         this.rotateRotors();
 
@@ -165,6 +198,11 @@ public class EnigmaMachine {
         return result;
     }
 
+    /**
+     * Codifica una frase lettera per lettera, eliminando ogni lettera maiuscola
+     * @param phrase Frase da codificare
+     * @return Frase codificata
+     */
     public String getCodifiedPhrase(String phrase) {
         phrase = phrase.toUpperCase();
         phrase = phrase.replaceAll("[^A-Z]", "");
@@ -178,12 +216,20 @@ public class EnigmaMachine {
         return result.toString();
     }
 
+    /**
+     * Main per debugging
+     */
     public static void main(String[] args) {
         EnigmaMachine enigmaMachine = new EnigmaMachine(1, 1, 1);
         enigmaMachine.changeRotorType(1, 2);
         System.out.println(enigmaMachine.getCodifiedPhrase("ciao"));
     }
 
+    /**
+     * ToString
+     * @return Lista di ogni rotore
+     */
+    @Override
     public String toString() {
         return rotor3 + "\n" + rotor2 + "\n" + rotor1 + "\n" + reflector;
     }
