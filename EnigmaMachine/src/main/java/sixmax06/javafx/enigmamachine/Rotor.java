@@ -3,13 +3,14 @@ package sixmax06.javafx.enigmamachine;
 import java.util.ArrayList;
 
 public class Rotor {
-    private int rotation;
+    private int rotation, type;
     private char turnoverChar;
     private ArrayList<Integer> alphabet;
 
-    public Rotor(int rotation, String alphabet, char turnoverChar) {
+    public Rotor(int rotation, String alphabet, int type, char turnoverChar) {
         this.rotation = rotation % 26;
         this.turnoverChar = turnoverChar;
+        this.type = type;
         this.alphabet = new ArrayList<>();
 
         for (int i = 0; i < 26; i++)
@@ -40,12 +41,20 @@ public class Rotor {
             this.alphabet.add(alphabet.charAt(i) - 'A');
     }
 
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public int getRotation() {
         return this.rotation;
     }
 
     public int getTurnoverInt() {
         return this.turnoverChar - 'A';
+    }
+
+    public int getType() {
+        return this.type;
     }
 
     public ArrayList<Integer> getAlphabet() {

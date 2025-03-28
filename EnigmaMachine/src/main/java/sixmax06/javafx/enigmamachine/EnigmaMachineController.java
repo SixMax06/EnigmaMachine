@@ -1,15 +1,11 @@
 package sixmax06.javafx.enigmamachine;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -32,7 +28,7 @@ public class EnigmaMachineController {
     private Button btnDecreaseRotor1, btnDecreaseRotor2, btnDecreaseRotor3;
 
     @FXML
-    private VBox vbxLampboard, vbxKeyboard;
+    private ComboBox<Integer> cbxTypeRotor1, cbxTypeRotor2, cbxTypeRotor3;
 
     @FXML
     private HBox hbxLampboard1, hbxLampboard2, hbxLampboard3;
@@ -44,26 +40,34 @@ public class EnigmaMachineController {
     private String keyboardLayout;
 
     public void initialize() {
-        this.enigmaMachine = new EnigmaMachine(2, 1, 1);
+        this.enigmaMachine = new EnigmaMachine(1, 1, 1);
 
-        FileReader fr = null;
+        this.cbxTypeRotor1.getItems().addAll(1, 2, 3);
+        this.cbxTypeRotor1.getSelectionModel().selectFirst();
+
+        this.cbxTypeRotor2.getItems().addAll(1, 2, 3);
+        this.cbxTypeRotor2.getSelectionModel().selectFirst();
+
+        this.cbxTypeRotor3.getItems().addAll(1, 2, 3);
+        this.cbxTypeRotor3.getSelectionModel().selectFirst();
+
+        FileReader fr;
         try {
             fr = new FileReader("keyboard_layout.csv");
             BufferedReader br = new BufferedReader(fr);
-            this.keyboardLayout = "";
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < 3; i++)
-                this.keyboardLayout += br.readLine();
+                sb.append(br.readLine());
+
+            this.keyboardLayout = sb.toString();
 
             for (int i = 0; i < 26; i++) {
                 Button keyButton = new Button(String.valueOf(keyboardLayout.charAt(i)));
-                keyButton.setPrefSize(45, 45);
+                keyButton.setPrefSize(46, 46);
                 keyButton.setFont(new Font("System", 20));
 
-                keyButton.setOnAction(event -> {
-                    this.turnOffAllLamps();
-                    this.EncryptCharacter(keyButton.getText().charAt(0));
-                });
+                keyButton.setOnAction(event -> this.EncryptCharacter(keyButton.getText().charAt(0)));
 
                 Text lampButton = createText(String.valueOf(keyboardLayout.charAt(i)));
                 Circle lampCircle = createOffLamp();
@@ -83,8 +87,6 @@ public class EnigmaMachineController {
                     this.hbxLampboard3.getChildren().add(lamp);
                 }
             }
-
-            System.out.println(hbxKeyboard1.getChildren());
 
             fr.close();
             br.close();
@@ -111,21 +113,28 @@ public class EnigmaMachineController {
 
     private Circle createOffLamp() {
         Circle circle = new Circle();
+
         circle.setFill(Color.LIGHTGREY);
-        circle.setRadius(22);
+        circle.setRadius(23);
         circle.setStroke(Color.BLACK);
+
         return circle;
     }
 
     private Circle createOnLamp() {
         Circle circle = new Circle();
+
         circle.setFill(Color.YELLOW);
-        circle.setRadius(22);
+        circle.setRadius(23);
         circle.setStroke(Color.BLACK);
+
         return circle;
     }
 
     private void EncryptCharacter(char character) {
+        this.checkRotorsType();
+        this.turnOffAllLamps();
+
         char encryptedCharacter = this.enigmaMachine.getEncryptedCharacter(character);
         int index = this.keyboardLayout.indexOf(encryptedCharacter);
 
@@ -147,6 +156,15 @@ public class EnigmaMachineController {
             hbxLampboard3.getChildren().add(index - 17, EncryptedLamp);
         }
 
+        this.UpdateRotorsRotations();
+    }
+
+    private void UpdateRotorsRotations() {
+        int[] rotations = enigmaMachine.getRotorsRotations();
+
+        this.lblPositionRotor1.setText(String.valueOf((char) (rotations[0] + 'A')));
+        this.lblPositionRotor2.setText(String.valueOf((char) (rotations[1] + 'A')));
+        this.lblPositionRotor3.setText(String.valueOf((char) (rotations[2] + 'A')));
     }
 
     private void turnOffAllLamps() {
@@ -160,15 +178,22 @@ public class EnigmaMachineController {
             StackPane lamp = new StackPane();
             lamp.getChildren().addAll(lampCircle, lampButton);
 
-            if (i <= 8) {
-                this.hbxLampboard1.getChildren().add(lamp);
-
-            } else if (i <= 16) {
-                this.hbxLampboard2.getChildren().add(lamp);
-
-            } else {
-                this.hbxLampboard3.getChildren().add(lamp);
-            }
+            if (i <= 8) this.hbxLampboard1.getChildren().add(lamp);
+            else if (i <= 16) this.hbxLampboard2.getChildren().add(lamp);
+            else this.hbxLampboard3.getChildren().add(lamp);
         }
+    }
+
+    private void checkRotorsType() {
+        int[] rotorsTypes = enigmaMachine.getRotorsType();
+
+        if (rotorsTypes[0] != cbxTypeRotor1.getValue())
+            enigmaMachine.changeRotorType(1, cbxTypeRotor1.getValue());
+
+        if (rotorsTypes[1] != cbxTypeRotor2.getValue())
+            enigmaMachine.changeRotorType(2, cbxTypeRotor2.getValue());
+
+        if (rotorsTypes[2] != cbxTypeRotor3.getValue())
+            enigmaMachine.changeRotorType(3, cbxTypeRotor3.getValue());
     }
 }
