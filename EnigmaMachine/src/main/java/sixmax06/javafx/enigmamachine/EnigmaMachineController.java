@@ -39,18 +39,25 @@ public class EnigmaMachineController {
     private EnigmaMachine enigmaMachine;
     private String keyboardLayout;
 
+    /**
+     * Inizializzazione applicazione
+     */
     public void initialize() {
         this.enigmaMachine = new EnigmaMachine(1, 1, 1);
 
+        //Crea combobox del primo rotore e lo seleziona
         this.cbxTypeRotor1.getItems().addAll(1, 2, 3);
         this.cbxTypeRotor1.getSelectionModel().selectFirst();
 
+        //Crea combobox del secondo rotore e lo seleziona
         this.cbxTypeRotor2.getItems().addAll(1, 2, 3);
         this.cbxTypeRotor2.getSelectionModel().selectFirst();
 
+        //Crea combobox del terzo rotore e lo seleziona
         this.cbxTypeRotor3.getItems().addAll(1, 2, 3);
         this.cbxTypeRotor3.getSelectionModel().selectFirst();
 
+        //Legge da file la configurazione dei rotori
         FileReader fr;
         try {
             fr = new FileReader("keyboard_layout.csv");
@@ -62,18 +69,22 @@ public class EnigmaMachineController {
 
             this.keyboardLayout = sb.toString();
 
+            //Configura la tastiera
             for (int i = 0; i < 26; i++) {
                 Button keyButton = new Button(String.valueOf(keyboardLayout.charAt(i)));
                 keyButton.setPrefSize(46, 46);
                 keyButton.setFont(new Font("System", 20));
 
+                //Associa l'evento quando si preme il tasto
                 keyButton.setOnAction(event -> this.EncryptCharacter(keyButton.getText().charAt(0)));
 
+                //Crea la lampada
                 Text lampButton = createText(String.valueOf(keyboardLayout.charAt(i)));
                 Circle lampCircle = createOffLamp();
                 StackPane lamp = new StackPane();
                 lamp.getChildren().addAll(lampCircle, lampButton);
 
+                //Sistema il tutto graficamente
                 if (i <= 8) {
                     this.hbxKeyboard1.getChildren().add(keyButton);
                     this.hbxLampboard1.getChildren().add(lamp);
@@ -91,6 +102,7 @@ public class EnigmaMachineController {
             fr.close();
             br.close();
 
+            //Eccezioni
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. File not found : " + e.getMessage());
             System.exit(1);
@@ -100,6 +112,11 @@ public class EnigmaMachineController {
         }
     }
 
+    /**
+     * Crea un Text a partire da una stringa
+     * @param string Stringa da convertire
+     * @return Text (Label immodificabile)
+     */
     private Text createText(String string) {
         Text text = new Text(string);
         text.setBoundsType(TextBoundsType.VISUAL);
@@ -111,6 +128,10 @@ public class EnigmaMachineController {
         return text;
     }
 
+    /**
+     * Crea un cerchio grigio (utilizzato per le lampade spente)
+     * @return Circle
+     */
     private Circle createOffLamp() {
         Circle circle = new Circle();
 
@@ -121,6 +142,10 @@ public class EnigmaMachineController {
         return circle;
     }
 
+    /**
+     * Crea un cerchio giallo (utilizzato per le lampade accese)
+     * @return Circle
+     */
     private Circle createOnLamp() {
         Circle circle = new Circle();
 
@@ -131,6 +156,10 @@ public class EnigmaMachineController {
         return circle;
     }
 
+    /**
+     * Crittografa una lettera utilizzando la macchina enigma
+     * @param character Lettera da crittografare
+     */
     private void EncryptCharacter(char character) {
         this.checkRotorsType();
         this.turnOffAllLamps();
@@ -159,6 +188,9 @@ public class EnigmaMachineController {
         this.UpdateRotorsRotations();
     }
 
+    /**
+     * Aggiorna label in base alla rotazione dei rotori
+     */
     private void UpdateRotorsRotations() {
         int[] rotations = enigmaMachine.getRotorsRotations();
 
@@ -167,6 +199,9 @@ public class EnigmaMachineController {
         this.lblPositionRotor3.setText(String.valueOf((char) (rotations[2] + 'A')));
     }
 
+    /**
+     * Spegne tutte le lampade
+     */
     private void turnOffAllLamps() {
         this.hbxLampboard1.getChildren().clear();
         this.hbxLampboard2.getChildren().clear();
@@ -184,6 +219,9 @@ public class EnigmaMachineController {
         }
     }
 
+    /**
+     * Cambia il tipo del rotore in base alla scelta dell'utente nei combobox
+     */
     private void checkRotorsType() {
         int[] rotorsTypes = enigmaMachine.getRotorsType();
 
