@@ -7,6 +7,10 @@ import java.io.IOException;
 
 /**
  * Classe che ricrea il funzionamento della macchina enigma
+ * @author Robolini Paolo
+ * @author Russo Massimo Tammaro
+ * @author Stanciu Catalin
+ * @version 1.0
  */
 public class EnigmaMachine {
     private Rotor rotor1, rotor2, rotor3;
