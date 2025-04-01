@@ -6,6 +6,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -29,6 +30,9 @@ public class EnigmaMachineController {
 
     @FXML
     private ComboBox<String> cbxTypeRotor1, cbxTypeRotor2, cbxTypeRotor3;
+
+    @FXML
+    private VBox vbxEnigmaMachine, vbxLampboard, vbxKeyboard;
 
     @FXML
     private HBox hbxLampboard1, hbxLampboard2, hbxLampboard3;
@@ -74,6 +78,7 @@ public class EnigmaMachineController {
                 Button keyButton = new Button(String.valueOf(keyboardLayout.charAt(i)));
                 keyButton.setPrefSize(46, 46);
                 keyButton.setFont(new Font("System", 20));
+                keyButton.setStyle("-fx-background-color: #C0C0C0");
 
                 //Associa l'evento quando si preme il tasto
                 keyButton.setOnAction(event -> this.EncryptCharacter(keyButton.getText().charAt(0)));
@@ -114,6 +119,7 @@ public class EnigmaMachineController {
 
     /**
      * Crea un Text a partire da una stringa
+     *
      * @param string Stringa da convertire
      * @return Text (Label immodificabile)
      */
@@ -130,6 +136,7 @@ public class EnigmaMachineController {
 
     /**
      * Crea un cerchio grigio (utilizzato per le lampade spente)
+     *
      * @return Circle
      */
     private Circle createOffLamp() {
@@ -144,6 +151,7 @@ public class EnigmaMachineController {
 
     /**
      * Crea un cerchio giallo (utilizzato per le lampade accese)
+     *
      * @return Circle
      */
     private Circle createOnLamp() {
@@ -158,6 +166,7 @@ public class EnigmaMachineController {
 
     /**
      * Crittografa una lettera utilizzando la macchina enigma
+     *
      * @param character Lettera da crittografare
      */
     private void EncryptCharacter(char character) {
@@ -185,13 +194,13 @@ public class EnigmaMachineController {
             hbxLampboard3.getChildren().add(index - 17, EncryptedLamp);
         }
 
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 
     /**
      * Aggiorna label in base alla rotazione dei rotori
      */
-    private void UpdateRotorsRotations() {
+    private void updateRotorsRotations() {
         int[] rotations = enigmaMachine.getRotorsRotations();
 
         this.lblPositionRotor1.setText(String.valueOf((char) (rotations[0] + 'A')));
@@ -235,39 +244,57 @@ public class EnigmaMachineController {
             enigmaMachine.changeRotorType(3, cbxTypeRotor3.getValue().length());
     }
 
+    /**
+     * Ruota il primo rotore in avanti
+     */
     @FXML
     public void IncreaseRotor1OnClick() {
         this.enigmaMachine.rotateRotors(1, 1);
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 
+    /**
+     * Ruota il primo rotore all'indietro
+     */
     @FXML
     public void DecreaseRotor1OnClick() {
         this.enigmaMachine.rotateRotors(-1, 1);
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 
+    /**
+     * Ruota il secondo rotore in avanti
+     */
     @FXML
     public void IncreaseRotor2OnClick() {
         this.enigmaMachine.rotateRotors(1, 2);
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 
+    /**
+     * Ruota il secondo rotore all'indietro
+     */
     @FXML
     public void DecreaseRotor2OnClick() {
         this.enigmaMachine.rotateRotors(-1, 2);
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 
+    /**
+     * Ruota il terzo rotore in avanti
+     */
     @FXML
     public void IncreaseRotor3OnClick() {
         this.enigmaMachine.rotateRotors(1, 3);
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 
+    /**
+     * Ruota il terzo rotore all'indietro
+     */
     @FXML
     public void DecreaseRotor3OnClick() {
         this.enigmaMachine.rotateRotors(-1, 3);
-        this.UpdateRotorsRotations();
+        this.updateRotorsRotations();
     }
 }

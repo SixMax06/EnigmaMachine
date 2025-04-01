@@ -9,11 +9,12 @@ public class Rotor {
     private int rotation, type;
     private char turnoverChar;
     private ArrayList<Integer> alphabet;
-  
-      /**
+
+    /**
      * Costruttore
-     * @param rotation Rotazione iniziale
-     * @param alphabet Alfabeto di codifica
+     *
+     * @param rotation     Rotazione iniziale
+     * @param alphabet     Alfabeto di codifica
      * @param turnoverChar Carattere a cui scatta la rotazione forzata
      */
     public Rotor(int rotation, String alphabet, int type, char turnoverChar) {
@@ -28,6 +29,7 @@ public class Rotor {
 
     /**
      * Aggiorna la rotazione del rotore
+     *
      * @param index Indice di rotazione
      */
     public void rotate(int index) {
@@ -37,6 +39,7 @@ public class Rotor {
 
     /**
      * Codifica una lettera "in avanti" (verso il rotore successivo)
+     *
      * @param character Lettera da codificare
      * @return Lettera codificata
      */
@@ -48,6 +51,7 @@ public class Rotor {
 
     /**
      * Codifica una lettera "al contrario" (verso il rotore precedente)
+     *
      * @param character Lettera da codificare
      * @return Lettera codificata
      */
@@ -59,7 +63,8 @@ public class Rotor {
 
     /**
      * Cambia l'alfabeto di criptazione
-     * @param alphabet Alfabeto da sostituire
+     *
+     * @param alphabet     Alfabeto da sostituire
      * @param turnoverChar Lettera di rotazione forzata
      */
     public void changeEncryptedAlphabet(String alphabet, char turnoverChar) {
@@ -70,12 +75,18 @@ public class Rotor {
             this.alphabet.add(alphabet.charAt(i) - 'A');
     }
 
+    /**
+     * Imposta il tipo del rotore
+     *
+     * @param type Tipo del rotore (da 1 a 3)
+     */
     public void setType(int type) {
         this.type = type;
     }
 
     /**
      * Metodo che restituisce la rotazione
+     *
      * @return Rotazione
      */
     public int getRotation() {
@@ -84,6 +95,7 @@ public class Rotor {
 
     /**
      * Metodo che restituisce la lettera di rotazione forzata, castata come intero
+     *
      * @return Lettera di rotazione forzata (int)
      */
     public int getTurnoverInt() {
@@ -96,6 +108,7 @@ public class Rotor {
 
     /**
      * Metodo che ritorna l'alfabeto di codifica
+     *
      * @return Alfabeto di codifica
      */
     public ArrayList<Integer> getAlphabet() {
@@ -104,6 +117,7 @@ public class Rotor {
 
     /**
      * toString del rotore
+     *
      * @return toString dell'ArrayList di codifica
      */
     @Override

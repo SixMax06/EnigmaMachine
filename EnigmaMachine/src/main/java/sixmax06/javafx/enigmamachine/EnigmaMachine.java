@@ -7,6 +7,7 @@ import java.io.IOException;
 
 /**
  * Classe che ricrea il funzionamento della macchina enigma
+ *
  * @author Robolini Paolo
  * @author Russo Massimo Tammaro
  * @author Stanciu Catalin
@@ -20,6 +21,7 @@ public class EnigmaMachine {
 
     /**
      * Costruttore
+     *
      * @param rotor1Type Tipo del 1° rotore
      * @param rotor2Type Tipo del 2° rotore
      * @param rotor3Type Tipo del 3° rotore
@@ -102,7 +104,12 @@ public class EnigmaMachine {
         }
     }
 
-
+    /**
+     * Ruota un rotore dato un indice di rotazione ed il numero del rotore
+     *
+     * @param index Indice di rotazione
+     * @param rotor Numero del rotore (da 1 a 3)
+     */
     public void rotateRotors(int index, int rotor) {
         switch (rotor) {
             case 1:
@@ -122,6 +129,7 @@ public class EnigmaMachine {
 
     /**
      * Cambia la tipologia del 1° rotore
+     *
      * @param type Tipo
      */
     private void changeRotor1Type(int type) {
@@ -142,6 +150,7 @@ public class EnigmaMachine {
 
     /**
      * Cambia la tipologia del 2° rotore
+     *
      * @param type Tipo
      */
     private void changeRotor2Type(int type) {
@@ -159,8 +168,10 @@ public class EnigmaMachine {
                 break;
         }
     }
+
     /**
      * Cambia la tipologia del 3° rotore
+     *
      * @param type Tipo
      */
     private void changeRotor3Type(int type) {
@@ -181,8 +192,9 @@ public class EnigmaMachine {
 
     /**
      * Cambia la tipologia di un singolo rotore
+     *
      * @param rotor Posizione del rotore
-     * @param type Tipologia della posizione
+     * @param type  Tipologia della posizione
      */
     public void changeRotorType(int rotor, int type) {
         switch (rotor) {
@@ -205,6 +217,7 @@ public class EnigmaMachine {
 
     /**
      * Codifica una lettera attraverso i rotori e il riflessore
+     *
      * @param character Lettera da codificare
      * @return Lettera codificata
      */
@@ -228,6 +241,7 @@ public class EnigmaMachine {
 
     /**
      * Codifica una frase lettera per lettera, eliminando ogni lettera maiuscola
+     *
      * @param phrase Frase da codificare
      * @return Frase codificata
      */
@@ -244,7 +258,11 @@ public class EnigmaMachine {
         return result.toString();
     }
 
-
+    /**
+     * Ritorna un vettore con le rotazioni dei rotori
+     *
+     * @return Un vettore di interi
+     */
     public int[] getRotorsRotations() {
         int[] rotations = new int[3];
         rotations[0] = this.rotor1.getRotation();
@@ -253,6 +271,11 @@ public class EnigmaMachine {
         return rotations;
     }
 
+    /**
+     * Ritorna un vettore con i tipi dei rotori
+     *
+     * @return Un vettor di interi
+     */
     public int[] getRotorsType() {
         int[] types = new int[3];
         types[0] = this.rotor1.getType();
@@ -273,6 +296,7 @@ public class EnigmaMachine {
 
     /**
      * ToString
+     *
      * @return Lista di ogni rotore
      */
     @Override

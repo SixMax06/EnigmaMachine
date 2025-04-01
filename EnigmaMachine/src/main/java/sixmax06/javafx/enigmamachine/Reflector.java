@@ -29,7 +29,7 @@ public class Reflector {
     }
 
     /**
-     *
+     * Alfabeto riflesso
      * @return toString dell'alfabeto riflesso
      */
     public TreeMap<Character, Character> getReflectedAlphabet() {
