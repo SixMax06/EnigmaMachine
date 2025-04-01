@@ -6,19 +6,20 @@ import java.util.ArrayList;
  * Classe che implementa il funzionamento di un singolo rotore
  */
 public class Rotor {
-    private int rotation;
+    private int rotation, type;
     private char turnoverChar;
     private ArrayList<Integer> alphabet;
-
-    /**
+  
+      /**
      * Costruttore
      * @param rotation Rotazione iniziale
      * @param alphabet Alfabeto di codifica
      * @param turnoverChar Carattere a cui scatta la rotazione forzata
      */
-    public Rotor(int rotation, String alphabet, char turnoverChar) {
+    public Rotor(int rotation, String alphabet, int type, char turnoverChar) {
         this.rotation = rotation % 26;
         this.turnoverChar = turnoverChar;
+        this.type = type;
         this.alphabet = new ArrayList<>();
 
         for (int i = 0; i < 26; i++)
@@ -31,6 +32,7 @@ public class Rotor {
      */
     public void rotate(int index) {
         rotation = (rotation + index) % 26;
+        if (rotation < 0) rotation += 26;
     }
 
     /**
@@ -68,6 +70,10 @@ public class Rotor {
             this.alphabet.add(alphabet.charAt(i) - 'A');
     }
 
+    public void setType(int type) {
+        this.type = type;
+    }
+
     /**
      * Metodo che restituisce la rotazione
      * @return Rotazione
@@ -82,6 +88,10 @@ public class Rotor {
      */
     public int getTurnoverInt() {
         return this.turnoverChar - 'A';
+    }
+
+    public int getType() {
+        return this.type;
     }
 
     /**

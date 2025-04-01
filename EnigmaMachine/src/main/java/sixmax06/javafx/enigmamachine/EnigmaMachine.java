@@ -54,13 +54,13 @@ public class EnigmaMachine {
                 }
 
                 if (type == rotor1Type)
-                    this.rotor1 = new Rotor(0, info[1], info[2].charAt(0));
+                    this.rotor1 = new Rotor(0, info[1], rotor1Type, info[2].charAt(0));
 
                 if (type == rotor2Type)
-                    this.rotor2 = new Rotor(0, info[1], info[2].charAt(0));
+                    this.rotor2 = new Rotor(0, info[1], rotor2Type, info[2].charAt(0));
 
                 if (type == rotor3Type)
-                    this.rotor3 = new Rotor(0, info[1], info[2].charAt(0));
+                    this.rotor3 = new Rotor(0, info[1], rotor3Type, info[2].charAt(0));
             }
 
             fr = new FileReader(reflectorFile);
@@ -68,6 +68,9 @@ public class EnigmaMachine {
             br = new BufferedReader(fr);
             line = br.readLine();
             this.reflector = new Reflector(line);
+
+            fr.close();
+            br.close();
 
         } catch (FileNotFoundException e) {
             System.out.println("ERROR. File not found : " + e.getMessage());
@@ -98,6 +101,24 @@ public class EnigmaMachine {
             }
         }
     }
+
+
+    public void rotateRotors(int index, int rotor) {
+        switch (rotor) {
+            case 1:
+                this.rotor1.rotate(index);
+                break;
+            case 2:
+                this.rotor2.rotate(index);
+                break;
+            case 3:
+                this.rotor3.rotate(index);
+                break;
+            default:
+                break;
+        }
+    }
+
 
     /**
      * Cambia la tipologia del 1° rotore
@@ -167,12 +188,15 @@ public class EnigmaMachine {
         switch (rotor) {
             case 1:
                 this.changeRotor1Type(type);
+                this.rotor1.setType(type);
                 break;
             case 2:
                 this.changeRotor2Type(type);
+                this.rotor2.setType(type);
                 break;
             case 3:
                 this.changeRotor3Type(type);
+                this.rotor3.setType(type);
                 break;
             default:
                 break;
@@ -219,6 +243,24 @@ public class EnigmaMachine {
 
         return result.toString();
     }
+
+
+    public int[] getRotorsRotations() {
+        int[] rotations = new int[3];
+        rotations[0] = this.rotor1.getRotation();
+        rotations[1] = this.rotor2.getRotation();
+        rotations[2] = this.rotor3.getRotation();
+        return rotations;
+    }
+
+    public int[] getRotorsType() {
+        int[] types = new int[3];
+        types[0] = this.rotor1.getType();
+        types[1] = this.rotor2.getType();
+        types[2] = this.rotor3.getType();
+        return types;
+    }
+
 
     /**
      * Main per debugging

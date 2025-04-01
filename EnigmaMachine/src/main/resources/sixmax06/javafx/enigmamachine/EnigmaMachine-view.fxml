@@ -1,16 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="sixmax06.javafx.enigmamachine.EnigmaMachineController">
+<VBox alignment="CENTER" prefHeight="800.0" prefWidth="700.0" spacing="50.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sixmax06.javafx.enigmamachine.EnigmaMachineController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+   <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+               <children>
+                  <Label text="Rotor 1">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnIncreaseRotor1" mnemonicParsing="false" onAction="#IncreaseRotor1OnClick" text="▲" />
+                  <Label fx:id="lblPositionRotor1" text="A">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnDecreaseRotor1" mnemonicParsing="false" onAction="#DecreaseRotor1OnClick" text="▼" />
+                  <ComboBox fx:id="cbxTypeRotor1" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="190.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+               <children>
+                  <Label text="Rotor 2">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnIncreaseRotor2" mnemonicParsing="false" onAction="#IncreaseRotor2OnClick" text="▲" />
+                  <Label fx:id="lblPositionRotor2" text="A">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnDecreaseRotor2" mnemonicParsing="false" onAction="#DecreaseRotor2OnClick" text="▼" />
+                  <ComboBox fx:id="cbxTypeRotor2" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="265.0" layoutY="10.0" prefHeight="200.0" prefWidth="100.0" spacing="2.0">
+               <children>
+                  <Label text="Rotor 3">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnIncreaseRotor3" mnemonicParsing="false" onAction="#IncreaseRotor3OnClick" text="▲" />
+                  <Label fx:id="lblPositionRotor3" text="A">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnDecreaseRotor3" mnemonicParsing="false" onAction="#DecreaseRotor3OnClick" text="▼" />
+                  <ComboBox fx:id="cbxTypeRotor3" prefWidth="150.0">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </ComboBox>
+               </children>
+            </VBox>
+         </children></HBox>
+      <VBox fx:id="vbxLampboard" layoutX="30.0" layoutY="398.0" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox fx:id="hbxLampboard1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+            <HBox fx:id="hbxLampboard2" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+            <HBox fx:id="hbxLampboard3" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+         </children></VBox>
+      <VBox fx:id="vbxKeyboard" prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox fx:id="hbxKeyboard1" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+            <HBox fx:id="hbxKeyboard2" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+            <HBox fx:id="hbxKeyboard3" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+         </children>
+      </VBox>
+   </children>
 </VBox>
