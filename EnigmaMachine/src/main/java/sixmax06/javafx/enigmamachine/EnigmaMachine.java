@@ -86,6 +86,22 @@ public class EnigmaMachine {
         }
     }
 
+    public void rotateRotors(int index, int rotor) {
+        switch (rotor) {
+            case 1:
+                this.rotor1.rotate(index);
+                break;
+            case 2:
+                this.rotor2.rotate(index);
+                break;
+            case 3:
+                this.rotor3.rotate(index);
+                break;
+            default:
+                break;
+        }
+    }
+
     private void changeRotor1Type(int type) {
         switch (type) {
             case 1:

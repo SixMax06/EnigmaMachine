@@ -28,7 +28,7 @@ public class EnigmaMachineController {
     private Button btnDecreaseRotor1, btnDecreaseRotor2, btnDecreaseRotor3;
 
     @FXML
-    private ComboBox<Integer> cbxTypeRotor1, cbxTypeRotor2, cbxTypeRotor3;
+    private ComboBox<String> cbxTypeRotor1, cbxTypeRotor2, cbxTypeRotor3;
 
     @FXML
     private HBox hbxLampboard1, hbxLampboard2, hbxLampboard3;
@@ -46,15 +46,15 @@ public class EnigmaMachineController {
         this.enigmaMachine = new EnigmaMachine(1, 1, 1);
 
         //Crea combobox del primo rotore e lo seleziona
-        this.cbxTypeRotor1.getItems().addAll(1, 2, 3);
+        this.cbxTypeRotor1.getItems().addAll("I", "II", "III");
         this.cbxTypeRotor1.getSelectionModel().selectFirst();
 
         //Crea combobox del secondo rotore e lo seleziona
-        this.cbxTypeRotor2.getItems().addAll(1, 2, 3);
+        this.cbxTypeRotor2.getItems().addAll("I", "II", "III");
         this.cbxTypeRotor2.getSelectionModel().selectFirst();
 
         //Crea combobox del terzo rotore e lo seleziona
-        this.cbxTypeRotor3.getItems().addAll(1, 2, 3);
+        this.cbxTypeRotor3.getItems().addAll("I", "II", "III");
         this.cbxTypeRotor3.getSelectionModel().selectFirst();
 
         //Legge da file la configurazione dei rotori
@@ -225,13 +225,49 @@ public class EnigmaMachineController {
     private void checkRotorsType() {
         int[] rotorsTypes = enigmaMachine.getRotorsType();
 
-        if (rotorsTypes[0] != cbxTypeRotor1.getValue())
-            enigmaMachine.changeRotorType(1, cbxTypeRotor1.getValue());
+        if (rotorsTypes[0] != cbxTypeRotor1.getValue().length())
+            enigmaMachine.changeRotorType(1, cbxTypeRotor1.getValue().length());
 
-        if (rotorsTypes[1] != cbxTypeRotor2.getValue())
-            enigmaMachine.changeRotorType(2, cbxTypeRotor2.getValue());
+        if (rotorsTypes[1] != cbxTypeRotor2.getValue().length())
+            enigmaMachine.changeRotorType(2, cbxTypeRotor2.getValue().length());
 
-        if (rotorsTypes[2] != cbxTypeRotor3.getValue())
-            enigmaMachine.changeRotorType(3, cbxTypeRotor3.getValue());
+        if (rotorsTypes[2] != cbxTypeRotor3.getValue().length())
+            enigmaMachine.changeRotorType(3, cbxTypeRotor3.getValue().length());
+    }
+
+    @FXML
+    public void IncreaseRotor1OnClick() {
+        this.enigmaMachine.rotateRotors(1, 1);
+        this.UpdateRotorsRotations();
+    }
+
+    @FXML
+    public void DecreaseRotor1OnClick() {
+        this.enigmaMachine.rotateRotors(-1, 1);
+        this.UpdateRotorsRotations();
+    }
+
+    @FXML
+    public void IncreaseRotor2OnClick() {
+        this.enigmaMachine.rotateRotors(1, 2);
+        this.UpdateRotorsRotations();
+    }
+
+    @FXML
+    public void DecreaseRotor2OnClick() {
+        this.enigmaMachine.rotateRotors(-1, 2);
+        this.UpdateRotorsRotations();
+    }
+
+    @FXML
+    public void IncreaseRotor3OnClick() {
+        this.enigmaMachine.rotateRotors(1, 3);
+        this.UpdateRotorsRotations();
+    }
+
+    @FXML
+    public void DecreaseRotor3OnClick() {
+        this.enigmaMachine.rotateRotors(-1, 3);
+        this.UpdateRotorsRotations();
     }
 }

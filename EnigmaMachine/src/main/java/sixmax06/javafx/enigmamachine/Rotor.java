@@ -19,6 +19,7 @@ public class Rotor {
 
     public void rotate(int index) {
         rotation = (rotation + index) % 26;
+        if (rotation < 0) rotation += 26;
     }
 
     public char getForwardEncryptedCharacter(char character) {

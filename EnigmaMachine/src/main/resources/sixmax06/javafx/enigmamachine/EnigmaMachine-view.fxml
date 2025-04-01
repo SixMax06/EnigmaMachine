@@ -19,13 +19,13 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnIncreaseRotor1" mnemonicParsing="false" text="▲" />
+                  <Button fx:id="btnIncreaseRotor1" mnemonicParsing="false" onAction="#IncreaseRotor1OnClick" text="▲" />
                   <Label fx:id="lblPositionRotor1" text="A">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnDecreaseRotor1" mnemonicParsing="false" text="▼" />
+                  <Button fx:id="btnDecreaseRotor1" mnemonicParsing="false" onAction="#DecreaseRotor1OnClick" text="▼" />
                   <ComboBox fx:id="cbxTypeRotor1" prefWidth="150.0">
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -40,13 +40,13 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnIncreaseRotor2" mnemonicParsing="false" text="▲" />
+                  <Button fx:id="btnIncreaseRotor2" mnemonicParsing="false" onAction="#IncreaseRotor2OnClick" text="▲" />
                   <Label fx:id="lblPositionRotor2" text="A">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnDecreaseRotor2" mnemonicParsing="false" text="▼" />
+                  <Button fx:id="btnDecreaseRotor2" mnemonicParsing="false" onAction="#DecreaseRotor2OnClick" text="▼" />
                   <ComboBox fx:id="cbxTypeRotor2" prefWidth="150.0">
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -61,13 +61,13 @@
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnIncreaseRotor3" mnemonicParsing="false" text="▲" />
+                  <Button fx:id="btnIncreaseRotor3" mnemonicParsing="false" onAction="#IncreaseRotor3OnClick" text="▲" />
                   <Label fx:id="lblPositionRotor3" text="A">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <Button fx:id="btnDecreaseRotor3" mnemonicParsing="false" text="▼" />
+                  <Button fx:id="btnDecreaseRotor3" mnemonicParsing="false" onAction="#DecreaseRotor3OnClick" text="▼" />
                   <ComboBox fx:id="cbxTypeRotor3" prefWidth="150.0">
                      <VBox.margin>
                         <Insets top="10.0" />
