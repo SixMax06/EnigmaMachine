@@ -30,3 +30,16 @@ Nel primo pannello sono rapresentati i tre rotori della macchina, ognuno con un 
 
 ![Screenshot 2025-04-14 131925](https://github.com/user-attachments/assets/87a04b68-ef5b-4964-bd9d-482d188fa510)
 
+Inoltre sotto ad ogni rotore si trova un menù a tendina che permette all'utente di cambiare il tipo dei rotori, muniti di alfabeti cifrati diversi:
+
+![Screenshot 2025-04-14 132022](https://github.com/user-attachments/assets/1e41eda8-4b90-4c90-a791-39221d0d164a)
+
+---
+
+### Qui segue un breve video dimostrativo del simulatore in funzione:
+
+
+
+https://github.com/user-attachments/assets/0ef1aa64-c6d9-4811-a0eb-c485d6b2bdca
+
+
