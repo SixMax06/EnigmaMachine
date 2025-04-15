@@ -26,4 +26,7 @@ Utilizzando la tastiera del simulatore possiamo vedere che alla pressione di ogn
 
 ![Screenshot 2025-04-14 131828](https://github.com/user-attachments/assets/77f84f2f-c374-452f-92f7-3d59ce4a244a)
 
----
+Nel primo pannello sono rapresentati i tre rotori della macchina, ognuno con un carattere che rappresenta la rotazione. Ogni rotore è munito di due bottoni utilizzati per ruotare manualmente i rotori. Dopo aver ruotato casualmente i rotori, possiamo vedere che alla pressione del carattere 'A' si illumina il carattere 'E', al posto del precedente carattere 'U'
+
+![Screenshot 2025-04-14 131925](https://github.com/user-attachments/assets/87a04b68-ef5b-4964-bd9d-482d188fa510)
+
